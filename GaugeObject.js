@@ -9,7 +9,28 @@ class GaugeObject {
     this.rows = rows;
     this.pattern = pattern;
   }
+
+  //Translations between gauge and measurements
+  stsFromLen = (cm) => {
+    return (this.sts / 10) * cm;
+  };
+
+  rowsFromLen = (cm) => {
+    return (this.rows / 10) * cm;
+  };
+
+  //Basic geometric units
+  rectange = (sts, length) => {
+    let rows = this.rowsFromLen(length);
+    let object = {
+      type: "rectangle",
+      startSts: sts,
+      endSts: sts,
+      rows: rows,
+      totalSts: rows * sts,
+    };
+    return object;
+  };
 }
 
-console.log(new GaugeObject(21, 22));
 module.exports = GaugeObject;
