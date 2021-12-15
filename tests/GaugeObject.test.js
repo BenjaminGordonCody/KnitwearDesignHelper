@@ -54,4 +54,16 @@ describe("Gauge Object Geometric Shapes", () => {
       shapeEveryNRows: 7,
     });
   });
+
+  test("Gauge can knit a DK trapezoid that tapers from 2sts to 10cm over 10cm", () => {
+    expect(swatch.shaping(2, 10, 10, 2)).toEqual({
+      type: "shaping",
+      startSts: 2,
+      endSts: 22,
+      rows: 28,
+      totalSts: 436,
+      stChangeInRow: 2,
+      shapeEveryNRows: 2,
+    });
+  });
 });

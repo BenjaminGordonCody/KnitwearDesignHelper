@@ -64,6 +64,7 @@ class GaugeObject {
     let endSts = this.stsFromLen(endWidth);
     let rows = this.rowsFromLen(length);
     let difference = endSts - sts;
+    console.log(rows, difference, stChangeInRow);
     let shapeEveryNRows = Math.floor(
       rows / Math.abs(difference / stChangeInRow)
     );
