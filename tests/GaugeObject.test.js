@@ -16,12 +16,15 @@ describe("Gauge Object Basic Functions", () => {
   });
 
   test("Gauge knows how to knit a 10cm^2 patch", () => {
-    expect(swatch.rectange(22, 10)).toEqual({
+    expect(swatch.rectangle(22, 10)).toEqual({
       type: "rectangle",
       startSts: 22,
       endSts: 22,
       rows: 28,
       totalSts: 616,
     });
+  });
+  test("Gauge can count stitches in an increasing shape with single increases", () => {
+    expect(swatch.stsFromShape(10, 5, 5, 28, 1)).toBe(370);
   });
 });
