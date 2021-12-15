@@ -12,11 +12,11 @@ class GaugeObject {
 
   //Translations between gauge and measurements
   stsFromLen = (cm) => {
-    return (this.sts / 10) * cm;
+    return Math.floor((this.sts / 10) * cm);
   };
 
   rowsFromLen = (cm) => {
-    return (this.rows / 10) * cm;
+    return Math.floor((this.rows / 10) * cm);
   };
 
   //Basic geometric units
@@ -39,10 +39,10 @@ class GaugeObject {
     rows,
     stChangeInRow
   ) => {
-    let shaping;
     //Are we increasing or decreasing?
+    let shaping;
     if (difference < 0) {
-      shaping = -stChangeInRow;
+      shaping = 0 - stChangeInRow;
     } else {
       shaping = stChangeInRow;
     }
@@ -50,6 +50,8 @@ class GaugeObject {
     let totalSts = 0;
     let sts = startSts;
     for (let i = 0; i < rows; i++) {
+      // It's assumed inc/dec happen at start of each n rows.
+      // This means that shaping isn't lost in cast-offs.
       if (i % shapeEveryNRows == 0 && startSts + difference != sts) {
         sts += shaping;
       }
@@ -59,13 +61,28 @@ class GaugeObject {
   };
 
   shaping = (sts, length, endWidth, stChangeInRow) => {
-    let endSts = this.rowsFromLen(endWidth);
-    let difference = endSts - sts;
+    let endSts = this.stsFromLen(endWidth);
     let rows = this.rowsFromLen(length);
-    let shapeEveryNRows = math.floor(rows / Math.abs(difference));
-    // It's assumed inc/dec happen at start of each n rows.
-    // This means that shaping isn't lost in cast-offs.
-    // This is also important for working out total st counts.
+    let difference = endSts - sts;
+    let shapeEveryNRows = Math.floor(
+      rows / Math.abs(difference / stChangeInRow)
+    );
+    let object = {
+      type: "shaping",
+      startSts: sts,
+      endSts: endSts,
+      stChangeInRow: stChangeInRow,
+      rows: rows,
+      shapeEveryNRows: shapeEveryNRows,
+      totalSts: this.stsFromShape(
+        sts,
+        difference,
+        shapeEveryNRows,
+        rows,
+        stChangeInRow
+      ),
+    };
+    return object;
   };
 }
 
