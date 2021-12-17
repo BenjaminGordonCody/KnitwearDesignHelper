@@ -61,13 +61,19 @@ class GaugeObject {
   };
 
   shaping = (sts, length, endWidth, stChangeInRow) => {
+    const getShapingRate = (difference, rows, stChangeInRow) => {
+      let shapingRate = [0, 0];
+      shapingRate[0] =
+        2 * Math.round(rows / Math.abs(difference / stChangeInRow) / 2);
+      shapingRate[1] = Math.ceil(
+        rows / ((difference - shapingRate[0]) / stChangeInRow)
+      );
+      return shapingRate;
+    };
     let endSts = this.stsFromLen(endWidth);
     let rows = this.rowsFromLen(length);
     let difference = endSts - sts;
-    console.log(rows, difference, stChangeInRow);
-    let shapeEveryNRows = Math.floor(
-      rows / Math.abs(difference / stChangeInRow)
-    );
+    let shapeEveryNRows = getShapingRate(difference, rows, stChangeInRow);
     let object = {
       type: "shaping",
       startSts: sts,
