@@ -16,11 +16,11 @@ class shapingDesign {
     //What's left over?
     this.blocksWithExtraPlainRow =
       (rows - this.standardBlockSize * this.totalShapingBlocks) / 2;
-    this.blocksWithExtraShapingRow = shapingRows - this.totalShapingBlocks;
+    this.blocksWithExtraShapingRow = shapingRows - this.totalShapingBlocks; // IS THIS IDENTICAL TO WS SHAPING ROWS BELOW?
 
-    // Where should the remaining shaping be put within their block
+    // Where should the leftovers go?
     if (this.standardBlockSize == 2) {
-      this.rowsWithWSShaping = this.blocksWithExtraShaping;
+      this.rowsWithWSShaping = this.blocksWithExtraShapingRow;
     } else if (
       this.standardBlockSize > 2 &&
       this.blocksWithExtraShapingRow > 0
@@ -31,11 +31,11 @@ class shapingDesign {
   }
 }
 
-for (let rows = 10; rows < 70; rows += 2) {
+for (let rows = 2; rows < 40; rows += 2) {
   console.log(`*********** ROWS = ${rows} `);
   for (let shapingRows = 1; shapingRows < rows; shapingRows++) {
     let output = new shapingDesign(rows, shapingRows);
-    if (output.blocksWithExtraShapingRow < 0) {
+    if (output.standardBlockSize > 2) {
       console.log(output);
     }
   }
