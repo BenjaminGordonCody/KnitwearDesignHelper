@@ -15,7 +15,7 @@ describe("Gauge Object Basic Functions", () => {
     expect(swatch.rowsFromLen(20)).toBe(56);
   });
 
-  test("Gauge can count stitches in an increasing shape with single increases", () => {
+  test("...count stitches in an increasing shape with single increases", () => {
     expect(swatch.stsFromShape(10, 5, 5, 28, 1)).toBe(370);
   });
 
@@ -43,7 +43,7 @@ describe("Gauge Object Geometric Shapes", () => {
     });
   });
 
-  test("Gauge can knit a DK trapezoid that tapers from 10sts to 1cm over 10cm", () => {
+  test("...can knit DK trapezoid tapering from 10sts to 1cm over 10cm", () => {
     expect(swatch.shaping(10, 10, 1, 2)).toEqual({
       type: "shaping",
       startSts: 10,
