@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Demo of Shaping Row Placement Logic</title>
+  </head>
+  <body>
+    <div id="leftCol">
+      <div class="slidecontainer">
+        <input
+          type="range"
+          min="1"
+          max="30"
+          value="10"
+          class="slider"
+          id="myRange"
+        />
+      </div>
+
+      <div id="container"></div>
+
+      <p>Number of decrease rows: <span id="output"></span></p>
+      <script src="shapingDemo.js"></script>
+    </div>
+
+    <div id="rightCol">
+      <ul>
+        <li>
+          This is a basic demo of the logic KnitwearDesignHelper uses to places
+          shaping rows.
+        </li>
+        <li>
+          Where possible, shaping is always placed on the same side of the
+          fabric
+        </li>
+        <li>In this demo, shorter blocks are grouped together.</li>
+        <li>
+          When writing an actual pattern, the program will be able to ramp in an
+          out (as if for designing the bell of an arm) or alternate between
+          blocks of different lengths (ie, as smooth as the algorithm can
+          imagine
+        </li>
+        <li>
+          This demo doesn't show what happens when wrong side rows are used. But
+          the program can handle them!
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

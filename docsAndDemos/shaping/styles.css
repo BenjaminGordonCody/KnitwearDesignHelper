@@ -13,3 +13,12 @@
 .shapingRow div {
   background-color: lightpink;
 }
+
+body {
+  display: flex;
+}
+
+#rightCol {
+  padding-top: 25vh;
+  padding-left: 10vw;
+}
