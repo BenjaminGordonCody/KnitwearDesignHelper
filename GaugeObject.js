@@ -1,3 +1,4 @@
+const getShapingSubsections = require("./shapingSubsections");
 class GaugeObject {
   constructor(sts, rows, pattern = [1, 0]) {
     // A pattern requiring "multiple of 6 + 2" would be described [6,2]
@@ -60,31 +61,31 @@ class GaugeObject {
     return totalSts;
   };
 
-  shaping = (sts, length, endWidth, stChangeInRow) => {
-    const getShapingRate = (difference, rows, stChangeInRow) => {
-      let shapingRate = [0, 0];
-      shapingRate[0] =
-        2 * Math.round(rows / Math.abs(difference / stChangeInRow) / 2);
-      shapingRate[1] = Math.ceil(
-        rows / ((difference - shapingRate[0]) / stChangeInRow)
-      );
-      return shapingRate;
-    };
+  shaping = (startSts, length, endWidth, stChangeInRow) => {
+    // Guestimate values
     let endSts = this.stsFromLen(endWidth);
     let rows = this.rowsFromLen(length);
-    let difference = endSts - sts;
-    let shapeEveryNRows = getShapingRate(difference, rows, stChangeInRow);
+    let difference = endSts - startSts;
+
+    //Corral guestimates into actual numbers
+    let shapingRows = Math.round(difference / stChangeInRow);
+    difference = shapingRows * stChangeInRow;
+    endSts = startSts + difference;
+
+    //Where will shaping go?
+    let shapingSubsections = new getShapingSubsections(rows, shapingRows);
+
     let object = {
       type: "shaping",
-      startSts: sts,
+      startSts: startSts,
       endSts: endSts,
       stChangeInRow: stChangeInRow,
       rows: rows,
-      shapeEveryNRows: shapeEveryNRows,
+      shapingSubsections: shapingSubsections,
       totalSts: this.stsFromShape(
-        sts,
+        startSts,
         difference,
-        shapeEveryNRows,
+        shapingSubsections,
         rows,
         stChangeInRow
       ),

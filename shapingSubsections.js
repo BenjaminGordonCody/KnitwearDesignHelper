@@ -1,4 +1,4 @@
-class shapingDesign {
+class shapingSubsections {
   constructor(rows, shapingRows) {
     this.rows = rows;
     this.shapingRows = shapingRows;
@@ -31,15 +31,15 @@ class shapingDesign {
   }
 }
 
-for (let rows = 2; rows < 40; rows += 2) {
-  console.log(`*********** ROWS = ${rows} `);
-  for (let shapingRows = 1; shapingRows < rows; shapingRows++) {
-    let output = new shapingDesign(rows, shapingRows);
-    if (output.standardBlockSize > 2) {
-      console.log(output);
-    }
-  }
-}
+// for (let rows = 2; rows < 40; rows += 2) {
+//   console.log(`*********** ROWS = ${rows} `);
+//   for (let shapingRows = 1; shapingRows < rows; shapingRows++) {
+//     let output = new shapingSubsections(rows, shapingRows);
+//     console.log(output);
+//   }
+// }
 
-// let example = new shapingDesign(18, 6);
+// let example = new shapingSubsections(18, 6);
 // console.log(example);
+
+module.exports = shapingSubsections;

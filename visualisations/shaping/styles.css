@@ -1,0 +1,15 @@
+.rowDiv {
+  /* border: 2px solid red; */
+  display: flex;
+  flex-direction: row;
+}
+
+.stDiv {
+  border: 1px solid black;
+  width: 15px;
+  height: 10px;
+}
+
+.shapingRow div {
+  background-color: lightpink;
+}
