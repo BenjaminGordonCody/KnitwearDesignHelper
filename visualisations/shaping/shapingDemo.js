@@ -86,8 +86,8 @@ slider.oninput = function () {
 
 //instance of subsection shaping
 function refreshScreen(shapingRows) {
-  let example = new shapingSubsections(40, shapingRows);
-  let startSts = 26;
+  let example = new shapingSubsections(60, shapingRows);
+  let startSts = 32;
 
   const container = document.getElementById("container");
 
