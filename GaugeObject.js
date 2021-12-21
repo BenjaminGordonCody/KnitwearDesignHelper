@@ -1,6 +1,6 @@
 const getShapingSubsections = require("./shapingSubsections");
 class GaugeObject {
-  constructor(sts, rows, pattern = [1, 0]) {
+  constructor(sts, rows, horPattern = [2, 0], verPattern = [2, 0]) {
     // A pattern requiring "multiple of 6 + 2" would be described [6,2]
     // The default values describe a pattern repeat of 1 st with no border,
     // ie, no specified pattern stitch, stockinette, or garter
@@ -8,20 +8,27 @@ class GaugeObject {
     // of fabric
     this.sts = sts;
     this.rows = rows;
-    this.pattern = pattern;
+    this.horPattern = horPattern;
+    this.verPattern = verPattern;
   }
 
   //Translations between gauge and measurements
+  nearestMultiple = (number, multipleOf) => {
+    return (
+      multipleOf[0] * Math.round((number - multipleOf[1]) / multipleOf[0]) +
+      multipleOf[1]
+    );
+  };
   stsFromLen = (cm) => {
-    return Math.floor((this.sts / 10) * cm);
+    return this.nearestMultiple((this.sts / 10) * cm, this.horPattern);
   };
 
   rowsFromLen = (cm) => {
-    return Math.floor((this.rows / 10) * cm);
+    return this.nearestMultiple((this.rows / 10) * cm, this.verPattern);
   };
 
   lenFromRows = (rows) => {
-    return Math.round((rows / this.rows) * 10);
+    return (rows / this.rows) * 10;
   };
   //Basic geometric units
   rectangle = (sts, length) => {
