@@ -21,7 +21,7 @@ class GaugeObject {
   };
 
   lenFromRows = (rows) => {
-    let cm = (rows / this.rows) * 10;
+    return Math.round((rows / this.rows) * 10);
   };
   //Basic geometric units
   rectangle = (sts, length) => {
