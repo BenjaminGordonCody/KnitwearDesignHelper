@@ -1,4 +1,5 @@
 const app = require("../GaugeObject");
+const shapingSubsections = require("../shapingSubsections");
 
 let swatch = new app(22, 28);
 
@@ -14,22 +15,6 @@ describe("Gauge Object Basic Functions", () => {
   test("Gauge knows 20cm of DK stocking stitch is 56 rows", () => {
     expect(swatch.rowsFromLen(20)).toBe(56);
   });
-
-  test("...count stitches in an increasing shape with single increases", () => {
-    expect(swatch.stsFromShape(10, 5, 5, 28, 1)).toBe(370);
-  });
-
-  test("Gauge can counts sts in decreasing shape with single decreases", () => {
-    expect(swatch.stsFromShape(10, -5, 5, 28, 1)).toBe(190);
-  });
-
-  test("Gauge can count sts in increasing shape with double increases", () => {
-    expect(swatch.stsFromShape(10, 6, 5, 16, 2)).toBe(226);
-  });
-
-  test("Gauge can count sts in decreasing shape with double decreases", () => {
-    expect(swatch.stsFromShape(10, -6, 5, 16, 2)).toBe(94);
-  });
 });
 
 describe("Gauge Object Geometric Shapes", () => {
@@ -44,14 +29,13 @@ describe("Gauge Object Geometric Shapes", () => {
   });
 
   test("...can knit DK trapezoid tapering from 10sts to 1cm over 10cm", () => {
-    expect(swatch.shaping(10, 10, 1, 2)).toEqual({
+    expect(swatch.shaping(10, 10, 1, -2)).toEqual({
       type: "shaping",
       startSts: 10,
       endSts: 2,
       rows: 28,
-      totalSts: 140,
-      stChangeInRow: 2,
-      shapeEveryNRows: 7,
+      stChangeInRow: -2,
+      shapingSubsections: new shapingSubsections(28, 4),
     });
   });
 
@@ -61,9 +45,44 @@ describe("Gauge Object Geometric Shapes", () => {
       startSts: 2,
       endSts: 22,
       rows: 28,
-      totalSts: 436,
       stChangeInRow: 2,
-      shapeEveryNRows: 2,
+      shapingSubsections: new shapingSubsections(28, 10),
+    });
+  });
+
+  test("... can knit a crown of 100sts in 6 wedges", () => {
+    expect(swatch.crown(100, 6)).toEqual({
+      initDecRow: {
+        stsToRemove: 4,
+        spaceBetweenDecs: 23,
+        stsOutsideOfDecreaseRepeats: 0,
+        remainingSts: 96,
+      },
+      stsPerWedge: 16,
+    });
+  });
+
+  test("... can knit a crown of 99sts in 4 wedges", () => {
+    expect(swatch.crown(95, 4)).toEqual({
+      initDecRow: {
+        stsToRemove: 3,
+        spaceBetweenDecs: 29,
+        stsOutsideOfDecreaseRepeats: 2,
+        remainingSts: 92,
+      },
+      stsPerWedge: 23,
+    });
+  });
+
+  test("... can knit a crown of 100sts in 7 wedges", () => {
+    expect(swatch.crown(100, 7)).toEqual({
+      initDecRow: {
+        stsToRemove: 2,
+        spaceBetweenDecs: 48,
+        stsOutsideOfDecreaseRepeats: 0,
+        remainingSts: 98,
+      },
+      stsPerWedge: 14,
     });
   });
 });

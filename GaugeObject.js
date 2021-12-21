@@ -20,6 +20,9 @@ class GaugeObject {
     return Math.floor((this.rows / 10) * cm);
   };
 
+  lenFromRows = (rows) => {
+    let cm = (rows / this.rows) * 10;
+  };
   //Basic geometric units
   rectangle = (sts, length) => {
     let rows = this.rowsFromLen(length);
@@ -33,34 +36,6 @@ class GaugeObject {
     return object;
   };
 
-  stsFromShape = (
-    startSts,
-    difference,
-    shapeEveryNRows,
-    rows,
-    stChangeInRow
-  ) => {
-    //Are we increasing or decreasing?
-    let shaping;
-    if (difference < 0) {
-      shaping = 0 - stChangeInRow;
-    } else {
-      shaping = stChangeInRow;
-    }
-
-    let totalSts = 0;
-    let sts = startSts;
-    for (let i = 0; i < rows; i++) {
-      // It's assumed inc/dec happen at start of each n rows.
-      // This means that shaping isn't lost in cast-offs.
-      if (i % shapeEveryNRows == 0 && startSts + difference != sts) {
-        sts += shaping;
-      }
-      totalSts += sts;
-    }
-    return totalSts;
-  };
-
   shaping = (startSts, length, endWidth, stChangeInRow) => {
     // Guestimate values
     let endSts = this.stsFromLen(endWidth);
@@ -68,9 +43,9 @@ class GaugeObject {
     let difference = endSts - startSts;
 
     //Corral guestimates into actual numbers
-    let shapingRows = Math.round(difference / stChangeInRow);
+    let shapingRows = Math.abs(Math.round(difference / stChangeInRow));
     difference = shapingRows * stChangeInRow;
-    endSts = startSts + difference;
+    //endSts = startSts + difference;
 
     //Where will shaping go?
     let shapingSubsections = new getShapingSubsections(rows, shapingRows);
@@ -82,13 +57,24 @@ class GaugeObject {
       stChangeInRow: stChangeInRow,
       rows: rows,
       shapingSubsections: shapingSubsections,
-      totalSts: this.stsFromShape(
-        startSts,
-        difference,
-        shapingSubsections,
-        rows,
-        stChangeInRow
-      ),
+    };
+    return object;
+  };
+
+  crown = (sts, wedges) => {
+    //Row that removes stitches that wont fit into crown shaping
+    let initDecRow = {
+      stsToRemove: sts % wedges,
+    };
+    initDecRow.spaceBetweenDecs = Math.floor(sts / initDecRow.stsToRemove) - 2;
+    initDecRow.stsOutsideOfDecreaseRepeats =
+      sts % (initDecRow.spaceBetweenDecs + 2);
+    initDecRow.remainingSts = Math.floor(sts / wedges) * wedges;
+
+    //Wedges decreases
+    let object = {
+      initDecRow: initDecRow,
+      stsPerWedge: initDecRow.remainingSts / wedges,
     };
     return object;
   };
