@@ -18,7 +18,7 @@ My goal for this app is that the user can input a few basic details about a knit
 ### Development Goals
 **Proof of Concept**
 - [x] Gauge object and methods exist and work as expected
-- [ ] App can design a hat in one size using command line
+- [x] App can design a hat in one size using command line
 - [ ] App can output final dimensions
 - [ ] App can output final stitch count
 -  [ ] App can design a hat in all CYC sizes using command line 
@@ -31,6 +31,7 @@ My goal for this app is that the user can input a few basic details about a knit
 - [ ] App refreshes outputted pattern as user changes options
 
 **Next steps**
+ - [ ] mittens
 - [ ] Plan tests for sweaters/vests
 - [ ] Allow user to implement own sizing
 - [ ] Make the output readable enough to submit it to a knitting publication.
